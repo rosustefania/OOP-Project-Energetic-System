@@ -1,5 +1,8 @@
 package singletonfactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Producer extends PowerGrid {
     /** producer's id **/
     private final int id;
@@ -13,6 +16,8 @@ public class Producer extends PowerGrid {
     private int energyPerDistributor;
     /** left number of distributors **/
     private int remainedDistributors;
+    /** stores distributors' ids for every month **/
+     private List<MonthlyStat> monthlyStats;
 
     public Producer(final int id, final String energyType, final int maxDistributors,
                     final double priceKW, int energyPerDistributor) {
@@ -22,6 +27,7 @@ public class Producer extends PowerGrid {
         this.priceKW = priceKW;
         this.energyPerDistributor = energyPerDistributor;
         this.remainedDistributors = maxDistributors;
+        this.monthlyStats = new ArrayList<>();
     }
 
     @Override
@@ -55,6 +61,28 @@ public class Producer extends PowerGrid {
 
     public void setRemainedDistributors(int remainedDistributors) {
         this.remainedDistributors = remainedDistributors;
+    }
+
+    public List<MonthlyStat> getMonthlyStats() {
+        return monthlyStats;
+    }
+
+    public void setMonthlyStats(List<MonthlyStat> monthlyStats) {
+        this.monthlyStats = monthlyStats;
+    }
+
+    /**
+     * method that notifies all of the distributors if any of the producers has changed his amount
+     * of monthly given energy per distributor
+     * @param distributors represents the objects that will be notified
+     */
+    public void notifyDistributors(List<PowerGrid> distributors) {
+        /* every distributor will choose again */
+        for (PowerGrid distributor : distributors) {
+            ((Distributor) distributor).update();
+        }
+        /* the producer will have maximum of distributors left again */
+        remainedDistributors = maxDistributors;
     }
 
     @Override

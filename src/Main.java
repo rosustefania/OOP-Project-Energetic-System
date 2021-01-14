@@ -47,7 +47,7 @@ public final class Main {
                 monthlyUpdates);
         simulation.doSimulation();
 
-        FileWriter writer = new FileWriter(consumers, distributors, filePath2);
+        FileWriter writer = new FileWriter(consumers, distributors, producers, filePath2);
         writer.write();
 
     }

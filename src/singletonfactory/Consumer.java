@@ -108,14 +108,29 @@ public class Consumer extends PowerGrid {
                 }
             }
         } else {
-            /* if the consumer has a penalty then verifies if he has enough money to pay it */
-            double bill = Math.round(Math.floor(Constants.PENALTY_PERCENTAGE * penalty)) + price;
+            double bill;
+            boolean newDistributor = false;
 
+            /* if the consumer has a penalty then verifies if he has changed his distributor */
+            if (penalty != price) {
+                bill = Math.round(Math.floor(Constants.PENALTY_PERCENTAGE * penalty));
+                newDistributor = true;
+            } else {
+                bill = Math.round(Math.floor(Constants.PENALTY_PERCENTAGE * penalty)) + price;
+            }
+
+            /* verifies if he has enough money to pay the bill */
             if (budget < bill) {
                 isBankrupt = true;
             } else {
                 budget -= bill;
-                penalty = 0.0;
+
+                if (newDistributor) {
+                    penalty = price;
+                } else {
+                    penalty = 0.0;
+                }
+
                 for (Contract contract : distributor.getContracts()) {
                     if (contract.getConsumerId() == id) {
                         contract.setRemainedMonths(contract.getRemainedMonths() - 1);

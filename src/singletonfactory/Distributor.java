@@ -6,7 +6,7 @@ import simulation.Contract;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Distributor extends PowerGrid {
+public class Distributor extends PowerGrid implements Observer{
     /** distributor's id **/
     private final int id;
     /** distributor's contract length **/
@@ -29,6 +29,7 @@ public class Distributor extends PowerGrid {
     private boolean isBankrupt;
     /** list of chosen producers **/
     private List<PowerGrid> chosenProducers;
+
 
     public Distributor(final int id, final int contractLength, final int budget,
                        final int infrastructureCost, final int energyNeededKW,
@@ -155,6 +156,14 @@ public class Distributor extends PowerGrid {
                 contracts.remove(givenContract);
             }
         }
+    }
+
+    /**
+     * method that updates the chosen producers' list if any of the producers has changed his
+     * given energy amount
+     */
+    public void update() {
+            chosenProducers.clear();
     }
 
     @Override

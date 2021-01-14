@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import simulation.Contract;
 import singletonfactory.Consumer;
 import singletonfactory.Distributor;
+import singletonfactory.MonthlyStat;
 import singletonfactory.PowerGrid;
+import singletonfactory.Producer;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,13 +18,16 @@ public class FileWriter {
     private final List<PowerGrid> consumers;
     /** final distributors' list **/
     private final List<PowerGrid> distributors;
+    /** final producers' list **/
+    private final List<PowerGrid> producers;
     /** output file path **/
     private final String filePath;
 
     public FileWriter(final List<PowerGrid> consumers, final List<PowerGrid> distributors,
-                  final String filePath) {
+                      final List<PowerGrid> producers, final String filePath) {
         this.consumers = consumers;
         this.distributors = distributors;
+        this.producers = producers;
         this.filePath = filePath;
     }
 
@@ -33,23 +38,35 @@ public class FileWriter {
     public void write() throws IOException {
         List<ConsumerOut> consumerOuts = new ArrayList<>();
         List<DistributorOut> distributorOuts = new ArrayList<>();
+        List<ProducerOut> producersOut = new ArrayList<>();
 
         for (PowerGrid consumer : consumers) {
-            consumerOuts.add(new ConsumerOut(((Consumer) consumer).getId(),
+            consumerOuts.add(new ConsumerOut(consumer.getId(),
                     ((Consumer) consumer).isBankrupt(), ((Consumer) consumer).getBudget()));
         }
 
         for (PowerGrid distributor : distributors) {
-
             List<Contract> contracts = new ArrayList<>(((Distributor) distributor).getContracts());
 
-            distributorOuts.add(new DistributorOut(((Distributor) distributor).getId(),
+            distributorOuts.add(new DistributorOut(distributor.getId(),
                     ((Distributor) distributor).getBudget(),
                     ((Distributor) distributor).isBankrupt(),
                     contracts));
         }
 
-        Result result = new Result(consumerOuts, distributorOuts);
+        for (PowerGrid producer : producers) {
+            List<MonthlyStat> monthlyStats = new ArrayList<>(((Producer) producer)
+                    .getMonthlyStats());
+            monthlyStats.remove(monthlyStats.get(monthlyStats.size() - 1));
+
+            producersOut.add(new ProducerOut(producer.getId(),
+                    ((Producer) producer).getMaxDistributors(), ((Producer) producer).getPriceKW(),
+                    ((Producer) producer).getEnergyType(),
+                    ((Producer) producer).getEnergyPerDistributor(), monthlyStats));
+
+        }
+
+        Result result = new Result(consumerOuts, distributorOuts, producersOut);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), result);
     }
