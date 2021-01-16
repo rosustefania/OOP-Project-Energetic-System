@@ -5,12 +5,12 @@
 <https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa2>
 
 ## Packages and classes
- Input package:
+ - Input package:
      - Input, InputLoader and UpdateData classes help reading (readData method) 
      the json objects; input is stored in an Input object; UpdateData objects 
      help storing the updates details;
            
- Output package: 
+ - Output package: 
     - ConsumerOut, DistributorOut and ProducerOut classes contain only the 
     fields that are written to the output json object;
     - Result class creates an object that contains consumers', distributors' and 
@@ -19,13 +19,13 @@
     file;
     - MonthlyStat class helps writing the statistics;
                  
- Simulation package: 
+ - Simulation package: 
     - Contract class helps creating contract objects that store information 
     about a contract;
     - Simulation class creates an object that does the initial round and the 
     following rounds;
                     
- Singletonfactoryobserver package:
+ - Singletonfactoryobserver package:
      - PowerGrid is an interface implemented by Consumer, Distributor and 
      Producer classes, classes that store details about the entities;
      - EntityFactory class implements both Factory and Singleton Patterns and is
@@ -34,7 +34,7 @@
      of the Singleton Pattern;
      - Observer is an interface used for implementing the observer pattern;
      
- Strategies package:
+ - Strategies package:
     - ProducerStrategy is an interface used for implementing the strategy 
     pattern;
     - GreenStrategy, PriceStrategy and QuantityStrategy are classes that 
