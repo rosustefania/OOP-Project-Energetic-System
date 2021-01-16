@@ -7,13 +7,13 @@ public class Result {
 
     private final List<DistributorOut> distributors;
 
-    private final List<ProducerOut> producers;
+    private final List<ProducerOut> energyProducers;
 
     public Result(final List<ConsumerOut> consumers, final List<DistributorOut> distributors,
-                  final List<ProducerOut> producers) {
+                  final List<ProducerOut> energyProducers) {
         this.consumers = consumers;
         this.distributors = distributors;
-        this.producers = producers;
+        this.energyProducers = energyProducers;
     }
 
     public final List<ConsumerOut> getConsumers() {
@@ -24,7 +24,7 @@ public class Result {
         return distributors;
     }
 
-    public List<ProducerOut> getProducers() {
-        return producers;
+    public final List<ProducerOut> getEnergyProducers() {
+        return energyProducers;
     }
 }

@@ -8,11 +8,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GreenStrategy implements ProducerStrategy {
+    /**
+     * method that applies the GREEN strategy
+     */
     @Override
     @SuppressWarnings("unchecked")
-    public void applyStrategy(Distributor distributor, List<PowerGrid> producers) {
+    public void applyStrategy(final Distributor distributor, final List<PowerGrid> producers) {
         int neededEnergy = distributor.getEnergyNeededKW();
-        List<Producer> sortedProducers = (List<Producer>)(List<?>) producers;
+        List<Producer> sortedProducers = (List<Producer>) (List<?>) producers;
 
         //sorts producers by the price per KW and then by the amount of energy per distributor;
         sortedProducers.sort(Comparator.comparing(Producer::getPriceKW)
@@ -22,17 +25,17 @@ public class GreenStrategy implements ProducerStrategy {
         // first looks for renewable energy;
         for (Producer sortedProducer : sortedProducers) {
             if (neededEnergy > 0) {
-                if ((sortedProducer.getRemainedDistributors() > 0) &&
-                        (sortedProducer.getEnergyType().equalsIgnoreCase("WIND") ||
-                        sortedProducer.getEnergyType().equalsIgnoreCase("SOLAR") ||
-                        sortedProducer.getEnergyType().equalsIgnoreCase("HYDRO"))) {
+                if ((sortedProducer.getDistributorsList().size() < sortedProducer
+                        .getMaxDistributors())
+                         && (sortedProducer.getEnergyType().equalsIgnoreCase("WIND")
+                         || sortedProducer.getEnergyType().equalsIgnoreCase("SOLAR")
+                         || sortedProducer.getEnergyType().equalsIgnoreCase("HYDRO"))) {
 
                     distributor.getChosenProducers().add(sortedProducer);
                     neededEnergy -= sortedProducer.getEnergyPerDistributor();
 
-                    // updates remaining distributors number
-                    sortedProducer.setRemainedDistributors(sortedProducer
-                            .getRemainedDistributors() - 1);
+                    //add distributor to producer's distributors list;
+                    sortedProducer.getDistributorsList().add(distributor);
                 }
             } else {
                 break;
@@ -42,16 +45,16 @@ public class GreenStrategy implements ProducerStrategy {
         // then looks for the other types of energy;
         for (Producer sortedProducer : sortedProducers) {
             if (neededEnergy > 0) {
-                if ((sortedProducer.getRemainedDistributors() > 0) &&
-                        (sortedProducer.getEnergyType().equalsIgnoreCase("COAL") ||
-                        sortedProducer.getEnergyType().equalsIgnoreCase("NUCLEAR"))) {
+                if ((sortedProducer.getDistributorsList().size() < sortedProducer
+                        .getMaxDistributors())
+                        && (sortedProducer.getEnergyType().equalsIgnoreCase("COAL")
+                        || sortedProducer.getEnergyType().equalsIgnoreCase("NUCLEAR"))) {
 
                     distributor.getChosenProducers().add(sortedProducer);
                     neededEnergy -= sortedProducer.getEnergyPerDistributor();
 
-                    // updates remaining distributors number
-                    sortedProducer.setRemainedDistributors(sortedProducer
-                            .getRemainedDistributors() - 1);
+                    //add distributor to producer's distributors list;
+                    sortedProducer.getDistributorsList().add(distributor);
                 }
             } else {
                 break;

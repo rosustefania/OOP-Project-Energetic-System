@@ -28,27 +28,27 @@ public class ProducerOut {
         this.monthlyStats = monthlyStats;
     }
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
-    public int getMaxDistributors() {
+    public final int getMaxDistributors() {
         return maxDistributors;
     }
 
-    public double getPriceKW() {
+    public final double getPriceKW() {
         return priceKW;
     }
 
-    public String getEnergyType() {
+    public final String getEnergyType() {
         return energyType;
     }
 
-    public int getEnergyPerDistributor() {
+    public final int getEnergyPerDistributor() {
         return energyPerDistributor;
     }
 
-    public List<MonthlyStat> getMonthlyStats() {
+    public final List<MonthlyStat> getMonthlyStats() {
         return monthlyStats;
     }
 }

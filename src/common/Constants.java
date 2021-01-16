@@ -31,6 +31,8 @@ public final class Constants {
     public static final double MAX_PRICE = 9999999.9;
     public static final double PENALTY_PERCENTAGE = 1.2;
     public static final double PRICE_PERCENTAGE = 0.2;
+    public static final double PRODUCTION_COST_CONSTANT = 10;
+
 
 
 }

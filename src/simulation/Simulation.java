@@ -131,8 +131,7 @@ public class Simulation {
     /**
      * method that monthly stores distributors' ids for every producer
      */
-    public void monthlyDistributorIds(List<PowerGrid> distributors, List<PowerGrid> producers,
-                                      int month) {
+    public void monthlyDistributorIds() {
         /* sorts producers' list by their id */
         producers.sort(Comparator.comparing(PowerGrid::getId));
 
@@ -141,7 +140,8 @@ public class Simulation {
             for (PowerGrid distributor : distributors) {
                 for (PowerGrid chosenProducer : ((Distributor) distributor).getChosenProducers()) {
                     if (chosenProducer.equals(producer)) {
-                       monthlyStat.getDistributorsIds().add(distributor.getId());
+                        monthlyStat.getDistributorsIds().add(distributor.getId());
+
                     }
                 }
             }
@@ -153,12 +153,10 @@ public class Simulation {
      * method that does the initial actions based on the initial data
      */
     public void setInitialActions() {
-        month ++;
+
         for (PowerGrid distributor : distributors) {
             chooseProducers((Distributor) distributor);
         }
-
-        monthlyDistributorIds(distributors, producers, month);
 
         calculateProductionCosts();
         calculateContractsPrices();
@@ -192,8 +190,9 @@ public class Simulation {
      * @param producerChange represents the given producer and his energy update
      */
     public void doProducersUpdate(final PowerGrid producerChange) {
+
         for (PowerGrid producer : producers) {
-            if (producer.getId() == producer.getId()) {
+            if (producer.getId() == producerChange.getId()) {
                 ((Producer) producer).setEnergyPerDistributor(((Producer) producerChange)
                         .getEnergyPerDistributor());
                 ((Producer) producer).notifyDistributors(distributors);
@@ -263,17 +262,29 @@ public class Simulation {
             ((Distributor) distributor).getContracts().removeAll(bankruptConsumers);
         }
 
-        /* updates producers' list */
-        for (PowerGrid producerUpdate : update.getProducerChanges()) {
-            doProducersUpdate(producerUpdate);
+        if (!update.getProducerChanges().isEmpty()) {
+            /* updates producers' list */
+            for (PowerGrid producerUpdate : update.getProducerChanges()) {
+                doProducersUpdate(producerUpdate);
+                for (PowerGrid producer : producers) {
+                    if (producer.getId() == producerUpdate.getId()) {
+                        ((Producer) producer).getDistributorsList().clear();
+                    }
+                }
+
+                /* distributors choose their producers again */
+                for (PowerGrid distributor : distributors) {
+                    if (((Distributor) distributor).getChosenProducers().isEmpty()) {
+                        chooseProducers((Distributor) distributor);
+                    }
+                }
+            }
+
+            calculateProductionCosts();
         }
 
-        /* distributors choose their producers again */
-        for (PowerGrid distributor : distributors) {
-            chooseProducers((Distributor) distributor);
-        }
+        monthlyDistributorIds();
 
-        monthlyDistributorIds(distributors, producers, month);
     }
 
     /**

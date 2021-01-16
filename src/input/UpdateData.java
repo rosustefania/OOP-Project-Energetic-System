@@ -32,11 +32,11 @@ public class UpdateData {
     }
 
     @Override
-    public String toString() {
-        return "UpdateData{" +
-                "newConsumers=" + newConsumers +
-                ", distributorChanges=" + distributorChanges +
-                ", producerChanges=" + producerChanges +
-                '}';
+    public final String toString() {
+        return "UpdateData{"
+                + "newConsumers=" + newConsumers
+                + ", distributorChanges=" + distributorChanges
+                + ", producerChanges=" + producerChanges
+                + '}';
     }
 }

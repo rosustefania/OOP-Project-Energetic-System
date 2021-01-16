@@ -49,7 +49,10 @@ public class FileWriter {
             List<Contract> contracts = new ArrayList<>(((Distributor) distributor).getContracts());
 
             distributorOuts.add(new DistributorOut(distributor.getId(),
+                    ((Distributor) distributor).getEnergyNeededKW(),
+                    ((Distributor) distributor).getContractPrice(),
                     ((Distributor) distributor).getBudget(),
+                    ((Distributor) distributor).getProducerStrategy(),
                     ((Distributor) distributor).isBankrupt(),
                     contracts));
         }
@@ -57,7 +60,6 @@ public class FileWriter {
         for (PowerGrid producer : producers) {
             List<MonthlyStat> monthlyStats = new ArrayList<>(((Producer) producer)
                     .getMonthlyStats());
-            monthlyStats.remove(monthlyStats.get(monthlyStats.size() - 1));
 
             producersOut.add(new ProducerOut(producer.getId(),
                     ((Producer) producer).getMaxDistributors(), ((Producer) producer).getPriceKW(),

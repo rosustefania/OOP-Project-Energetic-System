@@ -55,7 +55,8 @@ public class Input {
         return distributors;
     }
 
-    public final List<PowerGrid> getProducers() { return producers; }
+    public final List<PowerGrid> getProducers() {
+        return producers; }
 
     public final List<UpdateData> getMonthlyUpdates() {
         return monthlyUpdates;

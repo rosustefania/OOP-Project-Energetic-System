@@ -6,7 +6,7 @@ import simulation.Contract;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Distributor extends PowerGrid implements Observer{
+public class Distributor extends PowerGrid implements Observer {
     /** distributor's id **/
     private final int id;
     /** distributor's contract length **/
@@ -29,7 +29,6 @@ public class Distributor extends PowerGrid implements Observer{
     private boolean isBankrupt;
     /** list of chosen producers **/
     private List<PowerGrid> chosenProducers;
-
 
     public Distributor(final int id, final int contractLength, final int budget,
                        final int infrastructureCost, final int energyNeededKW,
@@ -67,21 +66,24 @@ public class Distributor extends PowerGrid implements Observer{
         return infrastructureCost;
     }
 
-    public void setInfrastructureCost(int infrastructureCost) {
+    public final void setInfrastructureCost(final int infrastructureCost) {
         this.infrastructureCost = infrastructureCost;
     }
 
-    public long getProductionCost() {
+    public final long getProductionCost() {
         return productionCost;
     }
 
-    public void setProductionCost() {
+    /**
+     * method that sets production cost by the given formulas
+     */
+    public final void setProductionCost() {
         double sum = 0.00;
         for (PowerGrid chosenProducer : chosenProducers) {
-            sum += ((Producer) chosenProducer).getEnergyPerDistributor() *
-                    ((Producer) chosenProducer).getPriceKW();
+            sum += ((Producer) chosenProducer).getEnergyPerDistributor()
+                    * ((Producer) chosenProducer).getPriceKW();
         }
-        productionCost = Math.round(Math.floor(sum/10));
+        productionCost = Math.round(Math.floor(sum / Constants.PRODUCTION_COST_CONSTANT));
     }
 
     public final List<Contract> getContracts() {
@@ -103,13 +105,13 @@ public class Distributor extends PowerGrid implements Observer{
         long price;
         if (contracts.size() == 0) {
             price = infrastructureCost + productionCost
-                    + Math.round(Math.floor(Constants.PRICE_PERCENTAGE ));
+                    + Math.round(Math.floor(Constants.PRICE_PERCENTAGE * productionCost));
         } else {
             price = Math.round(Math.floor(infrastructureCost / (double) contracts.size())
                     + productionCost + Math.round(Math.floor(Constants.PRICE_PERCENTAGE
                     * productionCost)));
         }
-         contractPrice = (int) price;
+        contractPrice = (int) price;
     }
 
     public final boolean isBankrupt() {
@@ -120,15 +122,15 @@ public class Distributor extends PowerGrid implements Observer{
         isBankrupt = bankrupt;
     }
 
-    public List<PowerGrid> getChosenProducers() {
+    public final List<PowerGrid> getChosenProducers() {
         return chosenProducers;
     }
 
-    public int getEnergyNeededKW() {
+    public final int getEnergyNeededKW() {
         return energyNeededKW;
     }
 
-    public String getProducerStrategy() {
+    public final String getProducerStrategy() {
         return producerStrategy;
     }
 
@@ -147,34 +149,35 @@ public class Distributor extends PowerGrid implements Observer{
     }
 
     /**
-     * removes the given contract from the contracts' list
-     * @param givenContract represents the given contract that need to be removed
-     */
-    public void removeContract(final Contract givenContract) {
-        for (Contract contract : contracts) {
-            if (contract.equals(givenContract)) {
-                contracts.remove(givenContract);
-            }
-        }
-    }
-
-    /**
      * method that updates the chosen producers' list if any of the producers has changed his
      * given energy amount
      */
     public void update() {
-            chosenProducers.clear();
+        /* removes the distributor from all producers he chose, if one of his producers updated */
+        for (PowerGrid chosenProducer : chosenProducers) {
+            List<PowerGrid> toBeRemovedDistributors = new ArrayList<>();
+
+            for (PowerGrid distributor : ((Producer) chosenProducer).getDistributorsList()) {
+                if (distributor.getId() == this.id) {
+                    toBeRemovedDistributors.add(distributor);
+                }
+            }
+            ((Producer) chosenProducer).getDistributorsList().removeAll(toBeRemovedDistributors);
+        }
+
+        /* removes all producers he chose, so he can choose again */
+        chosenProducers.clear();
     }
 
     @Override
-    public String toString() {
-        return "Distributor{" +
-                "id=" + id +
-                ", contractLength=" + contractLength +
-                ", budget=" + budget +
-                ", infrastructureCost=" + infrastructureCost +
-                ", energyNeededKW=" + energyNeededKW +
-                ", producerStrategy='" + producerStrategy + '\'' +
-                "} ";
+    public final String toString() {
+        return "Distributor{"
+                + "id=" + id
+                + ", contractLength=" + contractLength
+                + ", budget=" + budget
+                + ", infrastructureCost=" + infrastructureCost
+                + ", energyNeededKW=" + energyNeededKW
+                + ", producerStrategy='" + producerStrategy + '\''
+                + "} ";
     }
 }

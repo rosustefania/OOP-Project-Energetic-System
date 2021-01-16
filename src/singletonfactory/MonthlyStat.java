@@ -4,32 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonthlyStat {
-    private final int monthNumber;
+    private final int month;
 
     private List<Integer> distributorsIds;
 
-    public MonthlyStat(int monthNumber) {
-        this.monthNumber = monthNumber;
+    public MonthlyStat(int month) {
+        this.month = month;
         this.distributorsIds = new ArrayList<>();
     }
 
-    public List<Integer> getDistributorsIds() {
+    public final List<Integer> getDistributorsIds() {
         return distributorsIds;
     }
 
-    public void setDistributorsIds(List<Integer> distributorsIds) {
+    public final void setDistributorsIds(final List<Integer> distributorsIds) {
         this.distributorsIds = distributorsIds;
     }
 
-    public int getMonthNumber() {
-        return monthNumber;
+    public final int getMonth() {
+        return month;
     }
 
     @Override
-    public String toString() {
-        return "MonthlyStat{" +
-                "monthNumber=" + monthNumber +
-                ", distributorsIds=" + distributorsIds +
-                '}';
+    public final String toString() {
+        return "MonthlyStat{"
+                + "monthNumber=" + month
+                + ", distributorsIds=" + distributorsIds
+                + '}';
     }
 }

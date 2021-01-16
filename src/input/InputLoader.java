@@ -164,7 +164,7 @@ public class InputLoader {
                                         .intValue(),
                                 ((Long) ((JSONObject) jsonNewConsumer).get(Constants.MONTHLYINCOME))
                                         .intValue(), 0, 0,
-                                null,null, 0, 0.00,
+                                null, null, 0, 0.00,
                                 0);
 
                         newConsumers.add(newConsumer);
@@ -182,7 +182,7 @@ public class InputLoader {
                                         0, 0,
                                         ((Long) ((JSONObject) jsonDistributorChange)
                                                 .get(Constants.INFRASTRUCTURECOST)).intValue(),
-                                        0, null,null,
+                                        0, null, null,
                                         0, 0.00, 0);
 
                         distributorChanges.add(distributorChange);
@@ -198,7 +198,7 @@ public class InputLoader {
                                         ((Long) ((JSONObject) jsonProducerChange)
                                                 .get(Constants.ID)).intValue(), 0,
                                         0, 0, 0,
-                                        0, null,null,
+                                        0, null, null,
                                         0, 0.00,
                                         ((Long) ((JSONObject) jsonProducerChange)
                                                 .get(Constants.ENERGYPERDISTRIBUTOR)).intValue());

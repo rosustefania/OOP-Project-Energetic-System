@@ -24,4 +24,13 @@ public class ConsumerOut {
     public final int getBudget() {
         return budget;
     }
+
+    @Override
+    public final String toString() {
+        return "ConsumerOut{"
+                + "id=" + id
+                + ", isBankrupt=" + isBankrupt
+                + ", budget=" + budget
+                + '}';
+    }
 }

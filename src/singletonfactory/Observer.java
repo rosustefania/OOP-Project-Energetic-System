@@ -1,5 +1,8 @@
 package singletonfactory;
 
 public interface Observer {
-    public void update();
+    /**
+     * method that updates a distributor when one of his producers changes data
+     */
+    void update();
 }

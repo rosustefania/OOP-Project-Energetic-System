@@ -14,10 +14,10 @@ public class Producer extends PowerGrid {
     private final double priceKW;
     /** monthly amount of energy for a distributor **/
     private int energyPerDistributor;
-    /** left number of distributors **/
-    private int remainedDistributors;
     /** stores distributors' ids for every month **/
      private List<MonthlyStat> monthlyStats;
+     /** list of distributors that have chose the producer **/
+     private List<PowerGrid> distributorsList;
 
     public Producer(final int id, final String energyType, final int maxDistributors,
                     final double priceKW, int energyPerDistributor) {
@@ -26,8 +26,8 @@ public class Producer extends PowerGrid {
         this.maxDistributors = maxDistributors;
         this.priceKW = priceKW;
         this.energyPerDistributor = energyPerDistributor;
-        this.remainedDistributors = maxDistributors;
         this.monthlyStats = new ArrayList<>();
+        this.distributorsList = new ArrayList<>();
     }
 
     @Override
@@ -55,20 +55,20 @@ public class Producer extends PowerGrid {
         this.energyPerDistributor = energyPerDistributor;
     }
 
-    public int getRemainedDistributors() {
-        return remainedDistributors;
-    }
-
-    public void setRemainedDistributors(int remainedDistributors) {
-        this.remainedDistributors = remainedDistributors;
-    }
-
-    public List<MonthlyStat> getMonthlyStats() {
+    public final List<MonthlyStat> getMonthlyStats() {
         return monthlyStats;
     }
 
-    public void setMonthlyStats(List<MonthlyStat> monthlyStats) {
+    public final void setMonthlyStats(final List<MonthlyStat> monthlyStats) {
         this.monthlyStats = monthlyStats;
+    }
+
+    public final List<PowerGrid> getDistributorsList() {
+        return distributorsList;
+    }
+
+    public final void setDistributorsList(final List<PowerGrid> distributorsList) {
+        this.distributorsList = distributorsList;
     }
 
     /**
@@ -77,22 +77,26 @@ public class Producer extends PowerGrid {
      * @param distributors represents the objects that will be notified
      */
     public void notifyDistributors(List<PowerGrid> distributors) {
-        /* every distributor will choose again */
         for (PowerGrid distributor : distributors) {
-            ((Distributor) distributor).update();
+            // verifies if the modified producer is chosen by the distributor
+            for (PowerGrid chosenProducer : ((Distributor) distributor).getChosenProducers()) {
+                if (chosenProducer.getId() == this.id) {
+                    ((Distributor) distributor).update();
+                    break;
+                }
+            }
         }
-        /* the producer will have maximum of distributors left again */
-        remainedDistributors = maxDistributors;
     }
 
     @Override
-    public String toString() {
-        return "Producer{" +
-                "id=" + id +
-                ", energyType='" + energyType + '\'' +
-                ", maxDistributors=" + maxDistributors +
-                ", priceKW=" + priceKW +
-                ", energyPerDistributor=" + energyPerDistributor +
-                "} " + super.toString();
+    public final String toString() {
+        return "Producer{"
+                + "id=" + id
+                + ", energyType='" + energyType + '\''
+                + ", maxDistributors=" + maxDistributors
+                + ", priceKW=" + priceKW
+                + ", energyPerDistributor=" + energyPerDistributor
+                + ", monthlyStats=" + monthlyStats
+                + "} ";
     }
 }

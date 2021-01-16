@@ -142,11 +142,11 @@ public class Consumer extends PowerGrid {
     }
 
     @Override
-    public String toString() {
-        return "Consumer{" +
-                "id=" + id +
-                ", budget=" + budget +
-                ", monthlyIncome=" + monthlyIncome +
-                "}";
+    public final String toString() {
+        return "Consumer{"
+                + "id=" + id
+                + ", budget=" + budget
+                + ", monthlyIncome=" + monthlyIncome
+                + "}";
     }
 }
