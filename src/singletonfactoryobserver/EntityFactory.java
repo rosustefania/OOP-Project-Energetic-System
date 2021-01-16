@@ -1,4 +1,4 @@
-package singletonfactory;
+package singletonfactoryobserver;
 
 public final class EntityFactory {
     /** singleton factory instance **/

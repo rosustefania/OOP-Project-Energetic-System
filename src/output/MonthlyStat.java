@@ -1,4 +1,4 @@
-package singletonfactory;
+package output;
 
 import java.util.ArrayList;
 import java.util.List;

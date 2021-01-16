@@ -1,6 +1,6 @@
 package input;
 
-import singletonfactory.PowerGrid;
+import singletonfactoryobserver.PowerGrid;
 
 import java.util.List;
 

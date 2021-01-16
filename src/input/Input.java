@@ -1,6 +1,6 @@
 package input;
 
-import singletonfactory.PowerGrid;
+import singletonfactoryobserver.PowerGrid;
 
 import java.util.List;
 
@@ -15,23 +15,6 @@ public class Input {
     private final List<PowerGrid> producers;
     /** updates' list **/
     private final List<UpdateData> monthlyUpdates;
-
-    public Input() {
-        this.numberOfTurns = 0;
-        this.consumers = null;
-        this.distributors = null;
-        this.producers = null;
-        this.monthlyUpdates = null;
-    }
-
-    public Input(final long numberOfTurns, final List<PowerGrid> consumers,
-                 final List<PowerGrid> distributors, final List<PowerGrid> producers) {
-        this.numberOfTurns = numberOfTurns;
-        this.consumers = consumers;
-        this.distributors = distributors;
-        this.producers = producers;
-        this.monthlyUpdates = null;
-    }
 
     public Input(final long numberOfTurns, final List<PowerGrid> consumers,
                  final List<PowerGrid> distributors, final List<PowerGrid> producers,

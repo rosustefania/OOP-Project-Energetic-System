@@ -1,7 +1,5 @@
 package output;
 
-import singletonfactory.MonthlyStat;
-
 import java.util.List;
 
 public class ProducerOut {

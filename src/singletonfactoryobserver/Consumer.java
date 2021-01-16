@@ -1,4 +1,4 @@
-package singletonfactory;
+package singletonfactoryobserver;
 
 import common.Constants;
 import simulation.Contract;
@@ -59,10 +59,6 @@ public class Consumer extends PowerGrid {
 
     public final boolean isBankrupt() {
         return isBankrupt;
-    }
-
-    public final void setBankrupt(final boolean bankrupt) {
-        isBankrupt = bankrupt;
     }
 
     public final int getNumberOfMonths() {

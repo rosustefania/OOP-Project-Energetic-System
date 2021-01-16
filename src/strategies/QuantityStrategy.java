@@ -1,8 +1,8 @@
 package strategies;
 
-import singletonfactory.Distributor;
-import singletonfactory.PowerGrid;
-import singletonfactory.Producer;
+import singletonfactoryobserver.Distributor;
+import singletonfactoryobserver.PowerGrid;
+import singletonfactoryobserver.Producer;
 
 import java.util.Comparator;
 import java.util.List;
@@ -29,7 +29,6 @@ public class QuantityStrategy implements ProducerStrategy {
 
                     distributor.getChosenProducers().add(sortedProducer);
                     neededEnergy -= sortedProducer.getEnergyPerDistributor();
-                    //add distributor to producer's distributors list;
                     sortedProducer.getDistributorsList().add(distributor);
                 }
             } else {

@@ -1,4 +1,6 @@
-package singletonfactory;
+package singletonfactoryobserver;
+
+import output.MonthlyStat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +81,8 @@ public class Producer extends PowerGrid {
     public void notifyDistributors(List<PowerGrid> distributors) {
         for (PowerGrid distributor : distributors) {
             // verifies if the modified producer is chosen by the distributor
-            for (PowerGrid chosenProducer : ((Distributor) distributor).getChosenProducers()) {
-                if (chosenProducer.getId() == this.id) {
-                    ((Distributor) distributor).update();
-                    break;
-                }
+            if (distributorsList.contains(distributor)) {
+                ((Distributor) distributor).update();
             }
         }
     }

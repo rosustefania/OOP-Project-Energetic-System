@@ -2,11 +2,10 @@ package output;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import simulation.Contract;
-import singletonfactory.Consumer;
-import singletonfactory.Distributor;
-import singletonfactory.MonthlyStat;
-import singletonfactory.PowerGrid;
-import singletonfactory.Producer;
+import singletonfactoryobserver.Consumer;
+import singletonfactoryobserver.Distributor;
+import singletonfactoryobserver.PowerGrid;
+import singletonfactoryobserver.Producer;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +57,8 @@ public class FileWriter {
         }
 
         for (PowerGrid producer : producers) {
-            List<MonthlyStat> monthlyStats = new ArrayList<>(((Producer) producer)
+            List<MonthlyStat> monthlyStats;
+            monthlyStats = new ArrayList<>(((Producer) producer)
                     .getMonthlyStats());
 
             producersOut.add(new ProducerOut(producer.getId(),

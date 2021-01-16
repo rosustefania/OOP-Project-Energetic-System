@@ -1,4 +1,4 @@
-package singletonfactory;
+package singletonfactoryobserver;
 
 import common.Constants;
 import simulation.Contract;
@@ -28,7 +28,7 @@ public class Distributor extends PowerGrid implements Observer {
     /** for verifying if the distributor is bankrupt **/
     private boolean isBankrupt;
     /** list of chosen producers **/
-    private List<PowerGrid> chosenProducers;
+    private final List<PowerGrid> chosenProducers;
 
     public Distributor(final int id, final int contractLength, final int budget,
                        final int infrastructureCost, final int energyNeededKW,
@@ -68,10 +68,6 @@ public class Distributor extends PowerGrid implements Observer {
 
     public final void setInfrastructureCost(final int infrastructureCost) {
         this.infrastructureCost = infrastructureCost;
-    }
-
-    public final long getProductionCost() {
-        return productionCost;
     }
 
     /**
@@ -118,10 +114,6 @@ public class Distributor extends PowerGrid implements Observer {
         return isBankrupt;
     }
 
-    public final void setBankrupt(final boolean bankrupt) {
-        isBankrupt = bankrupt;
-    }
-
     public final List<PowerGrid> getChosenProducers() {
         return chosenProducers;
     }
@@ -156,7 +148,6 @@ public class Distributor extends PowerGrid implements Observer {
         /* removes the distributor from all producers he chose, if one of his producers updated */
         for (PowerGrid chosenProducer : chosenProducers) {
             List<PowerGrid> toBeRemovedDistributors = new ArrayList<>();
-
             for (PowerGrid distributor : ((Producer) chosenProducer).getDistributorsList()) {
                 if (distributor.getId() == this.id) {
                     toBeRemovedDistributors.add(distributor);

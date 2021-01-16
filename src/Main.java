@@ -3,7 +3,7 @@ import input.InputLoader;
 import input.UpdateData;
 import output.FileWriter;
 import simulation.Simulation;
-import singletonfactory.PowerGrid;
+import singletonfactoryobserver.PowerGrid;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,13 +35,9 @@ public final class Main {
 
         long numberOfTurns = input.getNumberOfTurns();
         List<PowerGrid> consumers = input.getConsumers();
-        //System.out.println(consumers);
         List<PowerGrid> distributors = input.getDistributors();
-        //System.out.println(distributors);
         List<PowerGrid> producers = input.getProducers();
-        //System.out.println(producers);
         List<UpdateData> monthlyUpdates = input.getMonthlyUpdates();
-        //System.out.println(monthlyUpdates);
 
         Simulation simulation = new Simulation(numberOfTurns, consumers, distributors, producers,
                 monthlyUpdates);

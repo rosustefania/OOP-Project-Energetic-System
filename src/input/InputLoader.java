@@ -1,15 +1,15 @@
 package input;
 
 import common.Constants;
-import singletonfactory.Consumer;
-import singletonfactory.Distributor;
-import singletonfactory.EntityFactory;
-import singletonfactory.PowerGrid;
+import singletonfactoryobserver.Consumer;
+import singletonfactoryobserver.Distributor;
+import singletonfactoryobserver.EntityFactory;
+import singletonfactoryobserver.PowerGrid;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import singletonfactory.Producer;
+import singletonfactoryobserver.Producer;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,10 +22,6 @@ public class InputLoader {
 
     public InputLoader(final String inputPath) {
         this.inputPath = inputPath;
-    }
-
-    public final String getInputPath() {
-        return inputPath;
     }
 
     /**
@@ -100,8 +96,7 @@ public class InputLoader {
                             (((JSONObject) jsonProducer).get(Constants.ENERGYTYPE)).toString(),
                             ((Long) ((JSONObject) jsonProducer).get(Constants.MAXDISTRIBUTORS))
                                     .intValue(),
-                            ((Double) ((JSONObject) jsonProducer).get(Constants.PRICEKW))
-                                    .doubleValue(),
+                            (Double) ((JSONObject) jsonProducer).get(Constants.PRICEKW),
                             ((Long) ((JSONObject) jsonProducer).get(Constants.ENERGYPERDISTRIBUTOR))
                                     .intValue());
 

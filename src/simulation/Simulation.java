@@ -1,11 +1,11 @@
 package simulation;
 
 import input.UpdateData;
-import singletonfactory.Consumer;
-import singletonfactory.Distributor;
-import singletonfactory.MonthlyStat;
-import singletonfactory.PowerGrid;
-import singletonfactory.Producer;
+import singletonfactoryobserver.Consumer;
+import singletonfactoryobserver.Distributor;
+import output.MonthlyStat;
+import singletonfactoryobserver.PowerGrid;
+import singletonfactoryobserver.Producer;
 import strategies.Context;
 import strategies.GreenStrategy;
 import strategies.PriceStrategy;
@@ -262,15 +262,10 @@ public class Simulation {
             ((Distributor) distributor).getContracts().removeAll(bankruptConsumers);
         }
 
+        /* updates producers' list */
         if (!update.getProducerChanges().isEmpty()) {
-            /* updates producers' list */
             for (PowerGrid producerUpdate : update.getProducerChanges()) {
                 doProducersUpdate(producerUpdate);
-                for (PowerGrid producer : producers) {
-                    if (producer.getId() == producerUpdate.getId()) {
-                        ((Producer) producer).getDistributorsList().clear();
-                    }
-                }
 
                 /* distributors choose their producers again */
                 for (PowerGrid distributor : distributors) {
@@ -280,12 +275,15 @@ public class Simulation {
                 }
             }
 
+            //calculates new production cost;
             calculateProductionCosts();
         }
 
+        // obtains monthly statistic;
         monthlyDistributorIds();
 
     }
+
 
     /**
      * method that does the simulation

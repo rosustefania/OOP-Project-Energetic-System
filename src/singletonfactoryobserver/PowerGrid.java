@@ -1,4 +1,4 @@
-package singletonfactory;
+package singletonfactoryobserver;
 
 public abstract class PowerGrid {
     /**

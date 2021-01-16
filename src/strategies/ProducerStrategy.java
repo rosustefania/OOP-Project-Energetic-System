@@ -1,7 +1,7 @@
 package strategies;
 
-import singletonfactory.Distributor;
-import singletonfactory.PowerGrid;
+import singletonfactoryobserver.Distributor;
+import singletonfactoryobserver.PowerGrid;
 
 import java.util.List;
 
